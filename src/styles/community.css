@@ -87,6 +87,7 @@ body{background:var(--cream)}
 .community-new{padding:90px clamp(22px,6vw,100px);background:var(--cream);color:var(--ink);border-top:1px solid rgb(17 20 27 / .2)}
 .community-new h2{font-size:clamp(58px,7vw,105px)}.community-new>p:not(.community-kicker){max-width:570px;font-size:21px;line-height:1.4}.community-new .community-inline-link{color:var(--blue-deep)}
 .site-footer{background:var(--cream);color:var(--ink);border-top:2px solid var(--blue)}
+.interior-hero{background:var(--cream);border-bottom:1px solid rgb(17 20 27 / .2)}
 @media(min-width:1021px){.desktop-nav a:first-child{display:none}}
 
 @media(max-width:1020px){
