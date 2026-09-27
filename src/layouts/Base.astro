@@ -3,6 +3,7 @@ import site from '../data/site.json';
 import '../styles/site.css';
 import '../styles/youth.css';
 import '../styles/community.css';
+import '../styles/story.css';
 
 interface Props { title?: string; description?: string; }
 const { title = site.name, description = site.description } = Astro.props;
@@ -15,6 +16,14 @@ const links = [
   ['/blog/', 'Blog'],
   ['/primera-vez/', 'Primera vez'],
   ['/contacto/', 'Contacto'],
+];
+const mobileLinks = [
+  ['/', 'Inicio'],
+  ['/#vision', 'Visión'],
+  ['/#pacto', 'Nuestro pacto'],
+  ['/agenda/', 'Agenda'],
+  ['/blog/', 'Blog'],
+  ['/primera-vez/', 'Primera vez'],
 ];
 ---
 <!doctype html>
@@ -39,11 +48,14 @@ const links = [
         {links.map(([href, label]) => <a href={`${base}${href}`} aria-current={path === `${base}${href}` ? 'page' : undefined}>{label}</a>)}
       </nav>
       <a class="header-cta" href={`${base}/agenda/`}>Agenda <span aria-hidden="true">↗</span></a>
-      <button class="community-menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav">Menú <span aria-hidden="true">☰</span></button>
-      <nav id="mobile-nav" class="mobile-nav" aria-label="Navegación móvil" hidden>
-        {links.map(([href, label]) => <a href={`${base}${href}`} aria-current={path === `${base}${href}` ? 'page' : undefined}>{label}<span aria-hidden="true">↗</span></a>)}
-      </nav>
+      <button class="community-menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav"><span class="menu-icon" aria-hidden="true"><i></i><i></i><i></i></span><span class="menu-label">Menú</span></button>
     </header>
+    <nav id="mobile-nav" class="mobile-nav" aria-label="Navegación móvil" hidden>
+      <div class="mobile-nav-list">
+        {mobileLinks.map(([href, label]) => <a href={`${base}${href}`} aria-current={path === `${base}${href}` ? 'page' : undefined}>{label}<span aria-hidden="true">↗</span></a>)}
+      </div>
+      <div class="mobile-nav-bottom"><a href={`${base}/contacto/`}>Contacto ↗</a><a href={`https://www.instagram.com/${site.instagram}/`} target="_blank" rel="noopener noreferrer">Instagram ↗</a></div>
+    </nav>
     <main id="main"><slot /></main>
     <footer class="site-footer">
       <div><strong>{site.name}</strong><span>{site.tagline}</span></div>
@@ -57,20 +69,40 @@ const links = [
       window.addEventListener('scroll', updateHeader, { passive: true });
       const menuButton = document.querySelector<HTMLButtonElement>('.community-menu-toggle');
       const mobileNav = document.querySelector<HTMLElement>('#mobile-nav');
+      const menuLabel = menuButton?.querySelector<HTMLElement>('.menu-label');
+      const main = document.querySelector<HTMLElement>('main');
+      const footer = document.querySelector<HTMLElement>('.site-footer');
       const closeMenu = () => {
         if (!menuButton || !mobileNav) return;
         menuButton.setAttribute('aria-expanded', 'false');
+        if (menuLabel) menuLabel.textContent = 'Menú';
         mobileNav.hidden = true;
         document.body.classList.remove('menu-open');
+        if (main) main.inert = false;
+        if (footer) footer.inert = false;
       };
       menuButton?.addEventListener('click', () => {
         if (!mobileNav) return;
         const opening = mobileNav.hidden;
         mobileNav.hidden = !opening;
         menuButton.setAttribute('aria-expanded', String(opening));
+        if (menuLabel) menuLabel.textContent = opening ? 'Cerrar' : 'Menú';
         document.body.classList.toggle('menu-open', opening);
+        if (main) main.inert = opening;
+        if (footer) footer.inert = opening;
+        if (opening) mobileNav.querySelector<HTMLAnchorElement>('a')?.focus();
+        else menuButton.focus();
       });
-      document.addEventListener('keydown', event => { if (event.key === 'Escape') { closeMenu(); menuButton?.focus(); } });
+      document.addEventListener('keydown', event => {
+        if (mobileNav?.hidden) return;
+        if (event.key === 'Escape') { closeMenu(); menuButton?.focus(); }
+        if (event.key === 'Tab') {
+          const targets = [menuButton, ...mobileNav.querySelectorAll<HTMLAnchorElement>('a')].filter(Boolean) as HTMLElement[];
+          const first = targets[0], last = targets[targets.length - 1];
+          if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+          else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+        }
+      });
       mobileNav?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
       window.matchMedia('(min-width: 1021px)').addEventListener('change', event => { if (event.matches) closeMenu(); });
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');

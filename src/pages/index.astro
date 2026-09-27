@@ -8,7 +8,16 @@ const posts = (await getCollection('blog')).filter(item => item.data.published).
 const events = (await getCollection('agenda')).filter(item => item.data.published && item.data.date >= new Date()).sort((a,b) => +a.data.date - +b.data.date).slice(0,2);
 ---
 <Base>
-  <section class="community-hero" aria-labelledby="hero-title">
+  <nav class="story-progress" aria-label="Pantallas de la portada">
+    <a href="#inicio" aria-label="Inicio" aria-current="step"></a>
+    <a href="#vision" aria-label="Nuestra visión"></a>
+    <a href="#pacto" aria-label="Nuestro pacto"></a>
+    <a href="#pacto-vivido" aria-label="Cómo vivimos el pacto"></a>
+    <a href="#nos-vemos" aria-label="Nos vemos"></a>
+    {posts.length > 0 && <a href="#desde-el-grupo" aria-label="Desde el grupo"></a>}
+  </nav>
+  <div class="story">
+  <section id="inicio" class="community-hero story-scene" aria-labelledby="hero-title">
     <div class="community-hero-copy">
       <p class="community-kicker">FREE YOUTH <span>·</span> JÓVENES EN EL PRAT</p>
       <h1 id="hero-title">{site.heroTitle}</h1>
@@ -17,7 +26,7 @@ const events = (await getCollection('agenda')).filter(item => item.data.publishe
         <a class="community-button" href={`${base}/agenda/`}>Ver la agenda <span aria-hidden="true">↗</span></a>
         <a class="community-inline-link" href="#pacto">Nuestro pacto <span aria-hidden="true">↓</span></a>
       </div>
-      <a class="community-scroll" href="#vision">Lo que queremos vivir <span aria-hidden="true">↓</span></a>
+      <a class="community-scroll" href="#vision">Desliza para seguir <span aria-hidden="true">↓</span></a>
     </div>
     <div class="community-art" aria-hidden="true">
       <span class="community-art-word">JUNTOS</span>
@@ -30,11 +39,9 @@ const events = (await getCollection('agenda')).filter(item => item.data.publishe
     </div>
   </section>
 
-  <div class="community-running" aria-hidden="true"><div><span>LO QUE SOMOS SE VIVE</span><i>✳</i><span>DENTRO Y FUERA DEL GRUPO</span><i>✳</i><span>FREE YOUTH</span><i>✳</i></div></div>
-
-  <section id="vision" class="community-vision" aria-labelledby="vision-title">
+  <section id="vision" class="community-vision story-scene" aria-labelledby="vision-title">
     <div class="community-vision-lead reveal">
-      <p class="community-kicker">01 / NUESTRA VISIÓN</p>
+      <p class="community-kicker">NUESTRA VISIÓN</p>
       <h2 id="vision-title">Mirar más lejos<br />que <em>el sábado.</em></h2>
       <p>Queremos que nuestra fe deje huella: en la relación con Dios, en lo que pasa entre nosotros y en la vida que compartimos fuera del grupo.</p>
       <a class="community-inline-link" href={`${base}/quienes-somos/`}>Conoce nuestra visión <span aria-hidden="true">↗</span></a>
@@ -42,11 +49,19 @@ const events = (await getCollection('agenda')).filter(item => item.data.publishe
     <div class="community-vision-orbit" aria-hidden="true"><span>DIOS</span><span>NOSOTROS</span><span>LOS DEMÁS</span><b>↗</b></div>
   </section>
 
-  <section id="pacto" class="community-pact" aria-labelledby="pact-title">
+  <section id="pacto" class="community-pact story-scene" aria-labelledby="pact-title">
     <div class="community-pact-head reveal">
-      <p class="community-kicker">02 / NUESTRO PACTO</p>
+      <p class="community-kicker">NUESTRO PACTO</p>
       <h2 id="pact-title">Lo dijimos<br /><em>nosotros.</em></h2>
       <p>Un día cada uno contó qué esperaba encontrar en Free Youth. De esas voces salió una manera de tratarnos que queremos cuidar de verdad.</p>
+    </div>
+    <a class="community-scroll" href="#pacto-vivido">Así queremos vivirlo <span aria-hidden="true">↓</span></a>
+    <div class="story-pact-liquid" aria-hidden="true"></div>
+  </section>
+  <section id="pacto-vivido" class="community-pact-lived story-scene" aria-labelledby="pact-lived-title">
+    <div class="community-pact-lived-head">
+      <p class="community-kicker">EL PACTO EN LA VIDA REAL</p>
+      <h2 id="pact-lived-title">Que se note.</h2>
     </div>
     <div class="community-pact-lines" aria-label="Cuatro maneras de vivir nuestro pacto">
       <p class="reveal"><span>01</span> Hablarnos claro.</p>
@@ -57,16 +72,73 @@ const events = (await getCollection('agenda')).filter(item => item.data.publishe
     <div class="community-pact-foot reveal"><span class="community-handmark" aria-hidden="true">✳</span><p>No son palabras para colgar en una pared. Son una forma de estar juntos.</p></div>
   </section>
 
-  <section class="community-meet" aria-labelledby="meet-title">
+  <section id="nos-vemos" class="community-meet story-scene" aria-labelledby="meet-title">
     <div class="community-meet-top reveal">
-      <div><p class="community-kicker">03 / NOS VEMOS</p><h2 id="meet-title">El sábado<br />seguimos.</h2></div>
+      <div><p class="community-kicker">NOS VEMOS</p><h2 id="meet-title">El sábado<br />seguimos.</h2></div>
       <a class="community-button community-button-dark" href={`${base}/agenda/`}>Abrir la agenda <span aria-hidden="true">↗</span></a>
     </div>
     <div class="community-meet-details reveal"><p><span>CUÁNDO</span><strong>{site.day} · {site.time}</strong></p><p><span>DÓNDE</span><strong>{site.address} · El Prat</strong></p></div>
     {events.length > 0 && <div class="community-events">{events.map(event => <a href={`${base}/agenda/${event.id}/`}><span>{event.data.date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' })}</span><strong>{event.data.title}</strong><span aria-hidden="true">↗</span></a>)}</div>}
+    <p class="community-meet-new">¿Es tu primera vez? <a href={`${base}/primera-vez/`}>Mira cómo venir ↗</a></p>
   </section>
 
-  {posts.length > 0 && <section class="community-notes" aria-labelledby="notes-title"><div class="community-notes-head"><p class="community-kicker">DESDE EL GRUPO</p><h2 id="notes-title">Lo que vamos compartiendo.</h2><a class="community-inline-link" href={`${base}/blog/`}>Ir al blog ↗</a></div><div class="community-notes-grid">{posts.map(post => <a href={`${base}/blog/${post.id}/`}>{post.data.cover && <img src={image(post.data.cover)} alt="" loading="lazy" />}<span>{post.data.date.toLocaleDateString('es-ES')}</span><h3>{post.data.title}</h3><p>{post.data.description}</p></a>)}</div></section>}
-
-  <section class="community-new" aria-labelledby="new-title"><p class="community-kicker">SI ACABAS DE LLEGAR</p><h2 id="new-title">También hay sitio para ti.</h2><p>Te contamos dónde estamos y qué puedes esperar de tu primera visita.</p><a class="community-inline-link" href={`${base}/primera-vez/`}>Quiero venir por primera vez <span aria-hidden="true">↗</span></a></section>
+  {posts.length > 0 && <section id="desde-el-grupo" class="community-notes story-scene" aria-labelledby="notes-title"><div class="community-notes-head"><p class="community-kicker">DESDE EL GRUPO</p><h2 id="notes-title">Lo que vamos compartiendo.</h2><a class="community-inline-link" href={`${base}/blog/`}>Ir al blog ↗</a></div><div class="community-notes-grid">{posts.map(post => <a href={`${base}/blog/${post.id}/`}>{post.data.cover && <img src={image(post.data.cover)} alt="" loading="lazy" />}<span>{post.data.date.toLocaleDateString('es-ES')}</span><h3>{post.data.title}</h3><p>{post.data.description}</p></a>)}</div></section>}
+  </div>
+  <script>
+    const scenes = [...document.querySelectorAll<HTMLElement>('.story-scene')];
+    const steps = [...document.querySelectorAll<HTMLAnchorElement>('.story-progress a')];
+    const footer = document.querySelector<HTMLElement>('.site-footer');
+    const progress = document.querySelector<HTMLElement>('.story-progress');
+    const story = document.querySelector<HTMLElement>('.story');
+    const motionReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const scrollToScene = (hash: string, animate = true) => {
+      const index = scenes.findIndex(scene => `#${scene.id}` === hash);
+      if (index < 0 || !story) return;
+      const header = document.querySelector<HTMLElement>('.site-header')?.offsetHeight ?? 72;
+      const storyTop = story.getBoundingClientRect().top + window.scrollY;
+      const precedingHeight = scenes.slice(0, index).reduce((height, scene) => height + scene.offsetHeight, 0);
+      window.scrollTo({ top: Math.max(0, storyTop + precedingHeight - header), behavior: animate && !motionReduced.matches ? 'smooth' : 'auto' });
+    };
+    let queued = false;
+    const updateStory = () => {
+      const header = document.querySelector<HTMLElement>('.site-header')?.offsetHeight ?? 72;
+      let current = 0;
+      scenes.forEach((scene, index) => {
+        const top = scene.getBoundingClientRect().top;
+        if (top <= header + window.innerHeight * .22) current = index;
+        if (!motionReduced.matches) {
+          const amount = Math.min(1, Math.max(0, (window.innerHeight - top) / (window.innerHeight - header)));
+          scene.style.setProperty('--flow-x', `${Math.round((1 - amount) * 110)}px`);
+          scene.style.setProperty('--flow-y', `${Math.round((1 - amount) * 70)}px`);
+          scene.style.setProperty('--flow-rotate', `${Math.round(amount * 32)}deg`);
+        }
+      });
+      const scenesStack = CSS.supports('position', 'sticky') && !motionReduced.matches;
+      scenes.forEach((scene, index) => { scene.inert = scenesStack && index !== current; });
+      steps.forEach((step, index) => {
+        if (index === current) step.setAttribute('aria-current', 'step');
+        else step.removeAttribute('aria-current');
+      });
+      const hideProgress = Boolean(footer && footer.getBoundingClientRect().top < window.innerHeight - 48);
+      progress?.classList.toggle('is-hidden', hideProgress);
+      if (progress) progress.inert = hideProgress;
+      queued = false;
+    };
+    window.addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(updateStory); } }, { passive: true });
+    window.addEventListener('resize', updateStory);
+    motionReduced.addEventListener('change', updateStory);
+    document.addEventListener('click', event => {
+      const link = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>('a[href]') : null;
+      if (!link) return;
+      const url = new URL(link.href, window.location.href);
+      if (url.origin !== window.location.origin || url.pathname !== window.location.pathname || !scenes.some(scene => `#${scene.id}` === url.hash)) return;
+      event.preventDefault();
+      if (window.location.hash !== url.hash) history.pushState(null, '', url.hash);
+      scrollToScene(url.hash);
+    });
+    window.addEventListener('popstate', () => scrollToScene(window.location.hash, false));
+    window.addEventListener('hashchange', () => scrollToScene(window.location.hash, false));
+    if (window.location.hash) requestAnimationFrame(() => scrollToScene(window.location.hash, false));
+    updateStory();
+  </script>
 </Base>
