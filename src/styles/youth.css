@@ -117,3 +117,38 @@
   .motion-ready .reveal,.values-list article,.button-primary,.visit-strip .button-light{transition:none}
   .button-primary:hover,.button-primary:active{transform:none}
 }
+
+/* The main routes stay visible and large enough to read on a phone. */
+@media(min-width:1021px){
+  .desktop-nav{gap:clamp(14px,1.6vw,26px)}
+  .desktop-nav a{font-size:15px;min-height:44px;display:inline-flex;align-items:center}
+  .header-cta{font-size:14px;min-height:44px;display:inline-flex;align-items:center}
+}
+@media(max-width:1020px){
+  .site-header{position:relative;height:auto;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:0;padding:10px 16px 0;background:var(--cream);backdrop-filter:none;-webkit-backdrop-filter:none}
+  .site-header.is-scrolled{background:var(--cream);box-shadow:none}
+  .brand{width:clamp(142px,43vw,190px);height:auto;aspect-ratio:760/132;margin:0;transform:none}
+  .desktop-nav,.menu-toggle{display:none}
+  .header-cta{display:inline-flex;align-items:center;min-height:44px;margin-left:8px;padding:10px 13px;font-size:13px}
+  .site-header .mobile-nav:not([hidden]){position:static;grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin-top:11px;padding:0;background:transparent;box-shadow:none}
+  .mobile-nav a{min-height:50px;display:flex;align-items:center;justify-content:center;padding:7px 5px;border-bottom:2px solid var(--line);font-size:16px;line-height:1.1;font-weight:800;text-align:center;text-decoration:none}
+  .mobile-nav a:hover,.mobile-nav a[aria-current=page]{border-bottom-color:var(--blue);color:var(--blue-deep);background:rgb(7 91 213 / .06)}
+  .hero{padding-top:30px}
+}
+@media(max-width:600px){
+  .site-header{height:auto}
+  .header-cta{font-size:13px}
+  .hero{padding-top:30px}
+  .hero h1{font-size:clamp(41px,11vw,61px);line-height:.99;letter-spacing:-.045em}
+  .hero h1 span{width:auto}
+  .hero-intro{font-size:17px;line-height:1.46}
+  .hero-facts strong{font-size:14px}
+  .hero-facts small{font-size:11px}
+  .first-visit{font-size:14px;line-height:1.35;font-weight:800;padding:5px 0 5px 12px}
+}
+@media(max-width:360px){
+  .header-cta{display:inline-flex;font-size:13px;padding-inline:10px}
+  .header-cta span{margin-left:3px}
+  .mobile-nav a{font-size:16px}
+  .hero h1{font-size:41px}
+}

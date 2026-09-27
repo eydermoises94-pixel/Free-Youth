@@ -38,10 +38,8 @@ const links = [
         {links.map(([href, label]) => <a href={`${base}${href}`} aria-current={path === `${base}${href}` ? 'page' : undefined}>{label}</a>)}
       </nav>
       <a class="header-cta" href={`${base}/primera-vez/`}>Quiero venir <span aria-hidden="true">↗</span></a>
-      <button class="menu-toggle" type="button" aria-controls="mobile-nav" aria-expanded="false">Menú <span aria-hidden="true">+</span></button>
-      <nav id="mobile-nav" class="mobile-nav" aria-label="Navegación móvil" hidden>
+      <nav id="mobile-nav" class="mobile-nav" aria-label="Navegación móvil">
         {links.map(([href, label]) => <a href={`${base}${href}`} aria-current={path === `${base}${href}` ? 'page' : undefined}>{label}</a>)}
-        <a href={`${base}/primera-vez/`}>Quiero venir ↗</a>
       </nav>
     </header>
     <main id="main"><slot /></main>
@@ -55,13 +53,6 @@ const links = [
       const updateHeader = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
       updateHeader();
       window.addEventListener('scroll', updateHeader, { passive: true });
-      const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
-      const menu = document.querySelector<HTMLElement>('#mobile-nav');
-      toggle?.addEventListener('click', () => {
-        const open = toggle.getAttribute('aria-expanded') !== 'true';
-        toggle.setAttribute('aria-expanded', String(open));
-        if (menu) menu.hidden = !open;
-      });
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
       if (!reduced.matches && 'IntersectionObserver' in window) {
         document.documentElement.classList.add('motion-ready');
