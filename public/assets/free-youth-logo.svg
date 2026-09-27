@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 132" role="img" aria-labelledby="logo-title">
+  <title id="logo-title">Free Youth · Acercándonos a Dios</title>
+  <g fill="#075bd5">
+    <path d="M52 5 104 82 52 55 0 82Z"/>
+    <path d="M52 68 107 119 52 101 0 119Z"/>
+  </g>
+  <text x="121" y="76" fill="#08090b" font-family="Arial Black, Arial, sans-serif" font-size="70" font-weight="900" letter-spacing="-3">FREE YOUTH</text>
+  <text x="190" y="112" fill="#08090b" font-family="Arial, sans-serif" font-size="21" font-weight="600" letter-spacing="5.5">Acercándonos a Dios</text>
+</svg>
