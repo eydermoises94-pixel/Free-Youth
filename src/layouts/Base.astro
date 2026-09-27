@@ -90,12 +90,12 @@ const mobileLinks = [
         document.body.classList.toggle('menu-open', opening);
         if (main) main.inert = opening;
         if (footer) footer.inert = opening;
-        if (opening) mobileNav.querySelector<HTMLAnchorElement>('a')?.focus();
-        else menuButton.focus();
+        if (opening) mobileNav.querySelector<HTMLAnchorElement>('a')?.focus({ preventScroll: true });
+        else menuButton.focus({ preventScroll: true });
       });
       document.addEventListener('keydown', event => {
         if (mobileNav?.hidden) return;
-        if (event.key === 'Escape') { closeMenu(); menuButton?.focus(); }
+        if (event.key === 'Escape') { closeMenu(); menuButton?.focus({ preventScroll: true }); }
         if (event.key === 'Tab') {
           const targets = [menuButton, ...mobileNav.querySelectorAll<HTMLAnchorElement>('a')].filter(Boolean) as HTMLElement[];
           const first = targets[0], last = targets[targets.length - 1];
