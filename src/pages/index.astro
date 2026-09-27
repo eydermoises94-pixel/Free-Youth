@@ -6,45 +6,67 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const image = (src: string) => src.startsWith('/') ? `${base}${src}` : src;
 const posts = (await getCollection('blog')).filter(item => item.data.published).sort((a,b) => +b.data.date - +a.data.date).slice(0,2);
 const events = (await getCollection('agenda')).filter(item => item.data.published && item.data.date >= new Date()).sort((a,b) => +a.data.date - +b.data.date).slice(0,2);
-const titleParts = site.heroTitle.match(/^(.*?)(este sábado\?)$/i);
 ---
 <Base>
-  <section class="hero" aria-labelledby="hero-title">
-    <div class="hero-copy hero-enter">
-      <p class="eyebrow">Free Youth · Grupo de jóvenes en El Prat</p>
-      <h1 id="hero-title">{titleParts ? <>{titleParts[1]}<span>{titleParts[2]}</span></> : site.heroTitle}</h1>
-      <p class="hero-intro">{site.heroIntro}</p>
-      <div class="hero-actions">
-        <a class="button button-primary" href={`${base}/primera-vez/`}>Quiero venir <span aria-hidden="true">↗</span></a>
-        <a class="text-link" href={`${base}/quienes-somos/`}>Conoce al grupo <span aria-hidden="true">↗</span></a>
+  <section class="community-hero" aria-labelledby="hero-title">
+    <div class="community-hero-copy">
+      <p class="community-kicker">FREE YOUTH <span>·</span> JÓVENES EN EL PRAT</p>
+      <h1 id="hero-title">{site.heroTitle}</h1>
+      <p class="community-intro">{site.heroIntro}</p>
+      <div class="community-actions">
+        <a class="community-button" href={`${base}/agenda/`}>Ver la agenda <span aria-hidden="true">↗</span></a>
+        <a class="community-inline-link" href="#pacto">Nuestro pacto <span aria-hidden="true">↓</span></a>
       </div>
-      <div class="hero-facts">
-        <p><small>CUÁNDO</small><strong>{site.day} · {site.time}</strong></p>
-        <p><small>DÓNDE</small><strong>{site.address} · El Prat</strong></p>
+      <a class="community-scroll" href="#vision">Lo que queremos vivir <span aria-hidden="true">↓</span></a>
+    </div>
+    <div class="community-art" aria-hidden="true">
+      <span class="community-art-word">JUNTOS</span>
+      <div class="community-art-photo">
+        <img src={image(site.heroImage)} alt="" width="1448" height="1086" fetchpriority="high" />
+        <span class="community-liquid"></span>
       </div>
-      <a class="first-visit" href={`${base}/primera-vez/`}>¿Es tu primera vez? Mira cómo llegar <span aria-hidden="true">↗</span></a>
-    </div>
-    <div class="hero-visual hero-enter" style={`--doodles:url('${base}/assets/anotaciones.png')`}>
-      <div class="photo-frame"><img src={image(site.heroImage)} alt="Composición abstracta de luz azul y dorada, sin personas" width="1448" height="1086" fetchpriority="high" /><span class="liquid-lens" aria-hidden="true"></span></div>
-      <span class="visual-index" aria-hidden="true">FREE YOUTH</span>
-    </div>
-    <a class="scroll-cue" href="#conecta">Descubre el grupo <span aria-hidden="true">↓</span></a>
-  </section>
-
-  <div class="youth-ribbon" aria-hidden="true"><div><span>VEN Y CONÓCENOS</span><i>✳</i><span>FREE YOUTH</span><i>✳</i><span>EL PRAT</span></div></div>
-
-  <section id="conecta" class="values reveal" aria-labelledby="values-title">
-    <div class="section-heading"><p class="eyebrow">EL GRUPO</p><h2 id="values-title">Conocernos.<br /><em>Compartir la fe.</em></h2><p class="values-caption">Esto es lo que queremos cuidar cada sábado.</p></div>
-    <div class="values-list">
-      <article><span>01</span><h3>Personas.</h3><p>Conoce a otros jóvenes de El Prat.</p></article>
-      <article><span>02</span><h3>Fe.</h3><p>Acercarnos a Dios y hacer preguntas.</p></article>
-      <article><span>03</span><h3>Respeto.</h3><p>Escuchar y tratar bien a quien tenemos delante.</p></article>
+      <span class="community-art-mark">FY / 26</span>
+      <span class="community-art-stroke"></span>
     </div>
   </section>
 
-  <section class="visit-strip reveal" aria-labelledby="visit-title"><div><p class="eyebrow">VEN A CONOCERNOS</p><h2 id="visit-title">Aquí nos<br />vemos.</h2></div><div class="visit-info"><span class="visit-arrow" aria-hidden="true">↗</span><p><strong>{site.day} · {site.time}</strong><br />{site.address}<br />{site.city}</p><a class="button button-light" href={`${base}/primera-vez/`}>Cómo llegar <span aria-hidden="true">↗</span></a></div></section>
+  <div class="community-running" aria-hidden="true"><div><span>LO QUE SOMOS SE VIVE</span><i>✳</i><span>DENTRO Y FUERA DEL GRUPO</span><i>✳</i><span>FREE YOUTH</span><i>✳</i></div></div>
 
-  <section class="pact reveal" aria-labelledby="pact-title"><div class="pact-words" aria-hidden="true"><span>COMUNICACIÓN</span><span>EMPATÍA</span><span>CONFIANZA</span><span>RESPETO</span></div><div class="pact-main"><div><p class="eyebrow">NUESTRO PACTO</p><h2 id="pact-title">Así queremos<br /><em>tratarnos.</em></h2></div><div class="pact-copy"><p>Queremos que en nuestro grupo reine el amor, del cual se desprenden la comunicación, la empatía, la confianza y el respeto.</p><a class="text-link" href={`${base}/quienes-somos/`}>Quiénes somos ↗</a></div></div></section>
+  <section id="vision" class="community-vision" aria-labelledby="vision-title">
+    <div class="community-vision-lead reveal">
+      <p class="community-kicker">01 / NUESTRA VISIÓN</p>
+      <h2 id="vision-title">Mirar más lejos<br />que <em>el sábado.</em></h2>
+      <p>Queremos que nuestra fe deje huella: en la relación con Dios, en lo que pasa entre nosotros y en la vida que compartimos fuera del grupo.</p>
+      <a class="community-inline-link" href={`${base}/quienes-somos/`}>Conoce nuestra visión <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="community-vision-orbit" aria-hidden="true"><span>DIOS</span><span>NOSOTROS</span><span>LOS DEMÁS</span><b>↗</b></div>
+  </section>
 
-  {(events.length > 0 || posts.length > 0) && <section class="updates reveal" aria-labelledby="updates-title"><p class="eyebrow">Lo que compartimos</p><h2 id="updates-title">Sigue cerca.</h2><div class="updates-grid">{events.map(event => <a href={`${base}/agenda/${event.id}/`}>{event.data.cover && <img src={image(event.data.cover)} alt="" loading="lazy" />}<small>AGENDA · {event.data.date.toLocaleDateString('es-ES')}</small><h3>{event.data.title}</h3><p>{event.data.description}</p></a>)}{posts.map(post => <a href={`${base}/blog/${post.id}/`}>{post.data.cover && <img src={image(post.data.cover)} alt="" loading="lazy" />}<small>BLOG · {post.data.date.toLocaleDateString('es-ES')}</small><h3>{post.data.title}</h3><p>{post.data.description}</p></a>)}</div></section>}
+  <section id="pacto" class="community-pact" aria-labelledby="pact-title">
+    <div class="community-pact-head reveal">
+      <p class="community-kicker">02 / NUESTRO PACTO</p>
+      <h2 id="pact-title">Lo dijimos<br /><em>nosotros.</em></h2>
+      <p>Un día cada uno contó qué esperaba encontrar en Free Youth. De esas voces salió una manera de tratarnos que queremos cuidar de verdad.</p>
+    </div>
+    <div class="community-pact-lines" aria-label="Cuatro maneras de vivir nuestro pacto">
+      <p class="reveal"><span>01</span> Hablarnos claro.</p>
+      <p class="reveal"><span>02</span> Escuchar de verdad.</p>
+      <p class="reveal"><span>03</span> Poder confiar.</p>
+      <p class="reveal"><span>04</span> Cuidar el respeto.</p>
+    </div>
+    <div class="community-pact-foot reveal"><span class="community-handmark" aria-hidden="true">✳</span><p>No son palabras para colgar en una pared. Son una forma de estar juntos.</p></div>
+  </section>
+
+  <section class="community-meet" aria-labelledby="meet-title">
+    <div class="community-meet-top reveal">
+      <div><p class="community-kicker">03 / NOS VEMOS</p><h2 id="meet-title">El sábado<br />seguimos.</h2></div>
+      <a class="community-button community-button-dark" href={`${base}/agenda/`}>Abrir la agenda <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="community-meet-details reveal"><p><span>CUÁNDO</span><strong>{site.day} · {site.time}</strong></p><p><span>DÓNDE</span><strong>{site.address} · El Prat</strong></p></div>
+    {events.length > 0 && <div class="community-events">{events.map(event => <a href={`${base}/agenda/${event.id}/`}><span>{event.data.date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' })}</span><strong>{event.data.title}</strong><span aria-hidden="true">↗</span></a>)}</div>}
+  </section>
+
+  {posts.length > 0 && <section class="community-notes" aria-labelledby="notes-title"><div class="community-notes-head"><p class="community-kicker">DESDE EL GRUPO</p><h2 id="notes-title">Lo que vamos compartiendo.</h2><a class="community-inline-link" href={`${base}/blog/`}>Ir al blog ↗</a></div><div class="community-notes-grid">{posts.map(post => <a href={`${base}/blog/${post.id}/`}>{post.data.cover && <img src={image(post.data.cover)} alt="" loading="lazy" />}<span>{post.data.date.toLocaleDateString('es-ES')}</span><h3>{post.data.title}</h3><p>{post.data.description}</p></a>)}</div></section>}
+
+  <section class="community-new" aria-labelledby="new-title"><p class="community-kicker">SI ACABAS DE LLEGAR</p><h2 id="new-title">También hay sitio para ti.</h2><p>Te contamos dónde estamos y qué puedes esperar de tu primera visita.</p><a class="community-inline-link" href={`${base}/primera-vez/`}>Quiero venir por primera vez <span aria-hidden="true">↗</span></a></section>
 </Base>
