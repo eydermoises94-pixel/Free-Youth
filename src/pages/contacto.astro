@@ -1,0 +1,5 @@
+---
+import Base from '../layouts/Base.astro';
+import site from '../data/site.json';
+---
+<Base title="Contacto"><section class="interior-hero"><p class="eyebrow">Contacto</p><h1>Hablemos.</h1><p>¿Tienes alguna duda antes de venir? Escríbenos en Instagram o ven a nuestra reunión habitual.</p><a class="button button-primary" href={`https://www.instagram.com/${site.instagram}/`} target="_blank" rel="noopener noreferrer">Escribir por Instagram ↗</a></section><section class="visit-details"><div><span>NOS VEMOS</span><h2>{site.day} · {site.time}</h2><p>{site.address}, {site.city}</p></div></section></Base>

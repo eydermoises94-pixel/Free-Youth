@@ -1,0 +1,50 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import site from '../data/site.json';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const image = (src: string) => src.startsWith('/') ? `${base}${src}` : src;
+const posts = (await getCollection('blog')).filter(item => item.data.published).sort((a,b) => +b.data.date - +a.data.date).slice(0,2);
+const events = (await getCollection('agenda')).filter(item => item.data.published && item.data.date >= new Date()).sort((a,b) => +a.data.date - +b.data.date).slice(0,2);
+const headline = site.heroTitle.replace(/tal como eres\.?$/i, '').trim();
+const emphasis = headline === site.heroTitle ? '' : 'tal como eres.';
+---
+<Base>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-copy hero-enter">
+      <p class="eyebrow">El Prat de Llobregat · Comunidad juvenil cristiana</p>
+      <h1 id="hero-title">{headline}{emphasis && <span>{emphasis}</span>}</h1>
+      <p class="hero-intro">{site.heroIntro}</p>
+      <div class="hero-actions">
+        <a class="button button-primary" href={`${base}/primera-vez/`}>Quiero venir <span aria-hidden="true">↗</span></a>
+        <a class="text-link" href={`${base}/quienes-somos/`}>Conocer Free Youth <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="hero-facts">
+        <p><small>CUÁNDO</small><strong>{site.day} · {site.time}</strong></p>
+        <p><small>DÓNDE</small><strong>{site.address} · El Prat</strong></p>
+      </div>
+      <a class="first-visit" href={`${base}/primera-vez/`}><span>¿Vienes por primera vez?</span><strong>Así será tu primera visita <span aria-hidden="true">↗</span></strong></a>
+    </div>
+    <div class="hero-visual hero-enter" style={`--doodles:url('${base}/assets/anotaciones.png')`}>
+      <div class="photo-frame"><img src={image(site.heroImage)} alt="Composición abstracta de luz azul y dorada, sin personas" width="1448" height="1086" fetchpriority="high" /></div>
+      <p class="visual-note">Aquí también<br />hay lugar para ti.</p>
+      <span class="visual-index" aria-hidden="true">01 / 03</span>
+    </div>
+    <a class="scroll-cue" href="#conecta">Desliza para descubrir <span aria-hidden="true">↓</span></a>
+  </section>
+
+  <section id="conecta" class="values reveal" aria-labelledby="values-title">
+    <div class="section-heading"><p class="eyebrow">Un espacio para ti</p><h2 id="values-title">Ven como eres.<br /><em>Crece en comunidad.</em></h2></div>
+    <div class="values-list">
+      <article><span>01</span><h3>Conecta.</h3><p>Un espacio para encontrarnos y caminar juntos.</p></article>
+      <article><span>02</span><h3>Crece.</h3><p>Preguntar, aprender y explorar la fe.</p></article>
+      <article><span>03</span><h3>Pertenece.</h3><p>Un lugar donde puedes llegar tal como eres.</p></article>
+    </div>
+  </section>
+
+  <section class="visit-strip reveal" aria-labelledby="visit-title"><div><p class="eyebrow">Tu primera visita</p><h2 id="visit-title">Este sábado<br />puede ser el primero.</h2></div><div><p>{site.day} a las {site.time}.<br />{site.address}, {site.city}.</p><a class="button button-light" href={`${base}/primera-vez/`}>Cómo venir <span aria-hidden="true">↗</span></a></div></section>
+
+  <section class="pact reveal" aria-labelledby="pact-title"><p class="eyebrow">Nuestro pacto</p><h2 id="pact-title">Más que actividades.</h2><p>Queremos que en nuestro grupo reine el amor, del cual se desprenden la comunicación, la empatía, la confianza y el respeto.</p><a class="text-link" href={`${base}/quienes-somos/`}>Conoce Free Youth ↗</a></section>
+
+  {(events.length > 0 || posts.length > 0) && <section class="updates reveal" aria-labelledby="updates-title"><p class="eyebrow">Lo que compartimos</p><h2 id="updates-title">Sigue cerca.</h2><div class="updates-grid">{events.map(event => <a href={`${base}/agenda/${event.id}/`}>{event.data.cover && <img src={image(event.data.cover)} alt="" loading="lazy" />}<small>AGENDA · {event.data.date.toLocaleDateString('es-ES')}</small><h3>{event.data.title}</h3><p>{event.data.description}</p></a>)}{posts.map(post => <a href={`${base}/blog/${post.id}/`}>{post.data.cover && <img src={image(post.data.cover)} alt="" loading="lazy" />}<small>BLOG · {post.data.date.toLocaleDateString('es-ES')}</small><h3>{post.data.title}</h3><p>{post.data.description}</p></a>)}</div></section>}
+</Base>

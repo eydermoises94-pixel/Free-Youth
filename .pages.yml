@@ -1,0 +1,100 @@
+media:
+  input: public/uploads
+  output: /uploads
+  categories: [image]
+  rename: safe
+
+content:
+  - name: blog
+    label: Blog
+    type: collection
+    path: src/content/blog
+    format: yaml-frontmatter
+    filename: "{year}-{month}-{day}-{primary}.md"
+    view:
+      primary: title
+      sort: date
+      order: desc
+    fields:
+      - { name: title, label: Título, type: string, required: true }
+      - { name: description, label: Resumen, type: text, required: true }
+      - { name: date, label: Fecha, type: date, required: true }
+      - { name: cover, label: Imagen, type: image }
+      - { name: published, label: Publicado, type: boolean }
+      - name: body
+        label: Contenido
+        type: rich-text
+        options:
+          media: false
+  - name: agenda
+    label: Agenda
+    type: collection
+    path: src/content/agenda
+    format: yaml-frontmatter
+    filename: "{year}-{month}-{day}-{primary}.md"
+    view:
+      primary: title
+      sort: date
+      order: asc
+    fields:
+      - { name: title, label: Título, type: string, required: true }
+      - { name: description, label: Descripción breve, type: text, required: true }
+      - name: date
+        label: Fecha y hora
+        type: date
+        required: true
+        options:
+          time: true
+          format: "yyyy-MM-dd'T'HH:mm"
+      - { name: place, label: Lugar, type: string, required: true }
+      - { name: cover, label: Imagen, type: image }
+      - { name: published, label: Publicado, type: boolean }
+      - name: body
+        label: Detalles
+        type: rich-text
+        options:
+          media: false
+  - name: pages
+    label: Páginas
+    type: collection
+    path: src/content/pages
+    format: yaml-frontmatter
+    filename:
+      template: "{primary}.md"
+      field: create
+    fields:
+      - { name: title, label: Título, type: string, required: true }
+      - { name: description, label: Resumen, type: text, required: true }
+      - name: body
+        label: Contenido
+        type: rich-text
+        options:
+          media: false
+  - name: site
+    label: Ajustes globales
+    type: file
+    path: src/data/site.json
+    format: json
+    fields:
+      - { name: name, label: Nombre, type: string, required: true }
+      - { name: tagline, label: Lema, type: string, required: true }
+      - { name: description, label: Descripción del sitio, type: text, required: true }
+      - { name: heroTitle, label: Titular de portada, type: string, required: true }
+      - { name: heroIntro, label: Introducción de portada, type: text, required: true }
+      - { name: day, label: Día habitual, type: string, required: true }
+      - { name: time, label: Hora habitual, type: string, required: true }
+      - { name: address, label: Dirección, type: string, required: true }
+      - { name: city, label: Ciudad, type: string, required: true }
+      - { name: instagram, label: Usuario de Instagram, type: string, required: true }
+      - { name: heroImage, label: Imagen de portada, type: image, required: true }
+
+settings:
+  content:
+    merge: true
+  commit:
+    identity: user
+    templates:
+      create: "Contenido nuevo: {path} (Pages CMS)"
+      update: "Actualizar contenido: {path} (Pages CMS)"
+      delete: "Eliminar contenido: {path} (Pages CMS)"
+      rename: "Renombrar contenido: {oldPath} -> {newPath} (Pages CMS)"

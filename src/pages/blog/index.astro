@@ -1,0 +1,8 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const image = (src: string) => src.startsWith('/') ? `${base}${src}` : src;
+const posts = (await getCollection('blog')).filter(post => post.data.published).sort((a,b) => +b.data.date - +a.data.date);
+---
+<Base title="Blog"><section class="interior-hero"><p class="eyebrow">Blog</p><h1>Ideas para el camino.</h1><p>Lo que compartimos como Free Youth.</p></section><section class="listing">{posts.length ? posts.map(post => <a class="list-item" href={`${base}/blog/${post.id}/`}>{post.data.cover && <img src={image(post.data.cover)} alt="" loading="lazy" />}<small>{post.data.date.toLocaleDateString('es-ES')}</small><h2>{post.data.title}</h2><p>{post.data.description}</p><span>Leer ↗</span></a>) : <div class="empty-state"><h2>Aún no hay artículos publicados.</h2><p>Cuando compartamos el primero, aparecerá aquí.</p></div>}</section></Base>
